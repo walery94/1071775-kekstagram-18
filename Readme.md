@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Валерия Еркина](https://up.htmlacademy.ru/javascript/18/user/1071775).
-* Наставник: `Неизвестно`.
+* Наставник: [Артем Макаров](https://up.htmlacademy.ru/adaptive/17/user/429879).
 
 ---
 
