@@ -128,7 +128,7 @@ var showBigPicture = function (photo) {
   showBigPictureComments(photo.comments);
 };
 
-showBigPicture(photos[getRandomArrayIndex(photos)]);
+// showBigPicture(photos[getRandomArrayIndex(photos)]);
 
 var socialCommentCount = document.querySelector('.social__comment-count');
 socialCommentCount.classList.add('visually-hidden');
@@ -136,4 +136,157 @@ socialCommentCount.classList.add('visually-hidden');
 var commentsLoader = document.querySelector('.comments-loader');
 commentsLoader.classList.add('visually-hidden');
 
+// Открытие, закрытие окна загрузки фотографии
+var uploadFile = document.querySelector('#upload-file');
+var imgUploadOverlay = document.querySelector('.img-upload__overlay');
+var buttonClose = document.querySelector('.img-upload__cancel');
+var BUTTON_ESC = 27;
 
+uploadFile.onchange = function () {
+  imgUploadOverlay.classList.remove('hidden');
+};
+
+buttonClose.addEventListener('click', function () {
+  imgUploadOverlay.classList.add('hidden');
+  setDefaultEffect();
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === BUTTON_ESC) {
+    imgUploadOverlay.classList.add('hidden');
+    setDefaultEffect();
+  }
+});
+
+// Передвижение ползунка
+var line = document.querySelector('.effect-level__line');
+var depth = document.querySelector('.effect-level__depth');
+var pin = document.querySelector('.effect-level__pin');
+
+var percents = (100 * line.offsetWidth) / depth.offsetWidth;
+
+pin.onmouseup = function () {
+  console.log('hello');
+};
+
+// Наложение эффекта на фотографию
+var picture = document.querySelector('.img-upload__preview');
+
+// TODO: уточнить можно ли так делать
+// var effects = document.querySelectorAll('input[name="effect"]');
+//
+// var applyEffect = function (evt) {
+//   var currentName = evt.target.value;
+//   setActiveEffect(currentName);
+// };
+//
+// effects.forEach(function (effect) {
+//   effect.addEventListener('click', applyEffect);
+// });
+
+var effectOriginal = document.querySelector('#effect-none');
+var effectChrome = document.querySelector('#effect-chrome');
+var effectSepia = document.querySelector('#effect-sepia');
+var effectMarvin = document.querySelector('#effect-marvin');
+var effectPhobos = document.querySelector('#effect-phobos');
+var effectHeat = document.querySelector('#effect-heat');
+var PREFIX = 'effects__preview--';
+var DEFAULT_EFFECT = 'none';
+var EFFECTS_NAMES = ['sepia', 'marvin', 'phobos', 'heat', 'chrome', 'none'];
+
+var setActiveEffect = function (nameEffect) {
+
+  for (var i = 0; i < EFFECTS_NAMES.length; i++) {
+    if (EFFECTS_NAMES[i] === nameEffect) {
+      picture.classList.toggle(PREFIX + nameEffect);
+    } else {
+      picture.classList.remove(PREFIX + EFFECTS_NAMES[i]);
+    }
+  }
+};
+
+var setDefaultEffect = function () {
+  setActiveEffect(DEFAULT_EFFECT);
+};
+
+var getOriginalEffect = function (evt) {
+  var currentName = evt.target.value;
+  setActiveEffect(currentName);
+};
+
+effectOriginal.addEventListener('click', getOriginalEffect);
+
+var getGhromeEffect = function (evt) {
+  var currentName = evt.target.value;
+  setActiveEffect(currentName);
+};
+
+effectChrome.addEventListener('click', getGhromeEffect);
+
+var getSepiaEffect = function (evt) {
+  var currentName = evt.target.value;
+  setActiveEffect(currentName);
+};
+
+effectSepia.addEventListener('click', getSepiaEffect);
+
+var getMarvinEffect = function (evt) {
+  var currentName = evt.target.value;
+  setActiveEffect(currentName);
+};
+
+effectMarvin.addEventListener('click', getMarvinEffect);
+
+var getPhobosEffect = function (evt) {
+  var currentName = evt.target.value;
+  setActiveEffect(currentName);
+};
+
+effectPhobos.addEventListener('click', getPhobosEffect);
+
+var getHeatEffect = function (evt) {
+  var currentName = evt.target.value;
+  setActiveEffect(currentName);
+};
+
+effectHeat.addEventListener('click', getHeatEffect);
+
+// Теги
+var hashTags = document.querySelector('.text__hashtags');
+var MIN_TEGS_LENGTH = 1;
+var MAX_TEGS_LENGTH = 20;
+var MAX_TEGS = 5;
+
+var validateTag = function (tag) {
+  if (!(tag[0] === '#' && tag.length > MIN_TEGS_LENGTH && tag.length < MAX_TEGS_LENGTH)) {
+    return false;
+  }
+  return true;
+};
+
+var validateHashTags = function (tagsString) {
+  var tagsArray = tagsString.split(' ');
+  if (tagsArray.length > MAX_TEGS) {
+    hashTags.setCustomValidity('Максимальное колличество хештегов: 5');
+    return false;
+  }
+
+  for (var i = 0; i < tagsArray.length; i++) {
+    if (!validateTag(tagsArray[i])) {
+      hashTags.setCustomValidity('Неправильный хештег: ' + tagsArray[i]);
+      return false;
+    }
+  }
+  return true;
+};
+
+var submitButton = document.querySelector('.img-upload__submit');
+var sendPhoto = function () {
+  var tags = hashTags.value.trim();
+  if (tags.length !== 0) {
+    if (!validateHashTags(tags)) {
+      return;
+    }
+  }
+};
+submitButton.addEventListener('click', sendPhoto);
