@@ -128,7 +128,7 @@ var showBigPicture = function (photo) {
   showBigPictureComments(photo.comments);
 };
 
-// showBigPicture(photos[getRandomArrayIndex(photos)]);
+showBigPicture(photos[getRandomArrayIndex(photos)]);
 
 var socialCommentCount = document.querySelector('.social__comment-count');
 socialCommentCount.classList.add('visually-hidden');
@@ -168,13 +168,13 @@ document.addEventListener('keydown', function (evt) {
 });
 
 // Передвижение ползунка
-var line = document.querySelector('.effect-level__line');
-var depth = document.querySelector('.effect-level__depth');
-var pin = document.querySelector('.effect-level__pin');
+// var line = document.querySelector('.effect-level__line');
+// var depth = document.querySelector('.effect-level__depth');
+// var pin = document.querySelector('.effect-level__pin');
 
-pin.onmouseup = function () {
-  var percents = 100 * (depth.offsetWidth / line.offsetWidth);
-};
+// pin.onmouseup = function () {
+//   var percents = 100 * (depth.offsetWidth / line.offsetWidth);
+// };
 
 // Наложение эффекта на фотографию
 var picture = document.querySelector('.img-upload__preview');
@@ -215,7 +215,7 @@ var MIN_TEGS_LENGTH = 1;
 var MAX_TEGS_LENGTH = 20;
 var MAX_TEGS = 5;
 
-hashTags.addEventListener('change', function () {
+hashTags.addEventListener('input', function () {
   hashTags.setCustomValidity('');
 });
 
