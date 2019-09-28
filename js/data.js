@@ -3,7 +3,7 @@
 (function () {
   var NAMES = ['Миша', 'Петя', 'Саша', 'Аня', 'Ваня'];
 
-  var LIKES = {
+  window.LIKES = {
     MIN: 15,
     MAX: 200
   };
@@ -17,7 +17,7 @@
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
-  var DESCRIPTION = [
+  window.DESCRIPTION = [
     'Отдыхаем',
     'Люблю',
     'Я и моя собака',
@@ -28,16 +28,23 @@
 
 
   var COUNT_COMMENTS = 3;
+  var COUNT_OBJECTS = 25;
+  var BUTTON_ESC = 27;
+
+  window.data = {
+    COUNT_OBJECTS: COUNT_OBJECTS,
+    BUTTON_ESC: BUTTON_ESC
+  };
 
   var getRandomArrayIndex = function (array) {
     return Math.floor(Math.random() * array.length);
   };
 
-  var getRandomPoint = function (min, max) {
+  window.getRandomPoint = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  var generateComments = function () {
+  window.generateComments = function () {
     var comments = [];
 
     for (var i = 0; i < COUNT_COMMENTS; i++) {
@@ -49,27 +56,5 @@
     }
 
     return comments;
-  };
-
-  window.generatePhotos = function () {
-    var photos = [];
-    for (var i = 0; i < window.constants.COUNT_OBJECTS; i++) {
-      photos.push({
-        url: 'photos/' + (i + 1) + '.jpg',
-        description: DESCRIPTION[getRandomArrayIndex(DESCRIPTION)],
-        likes: getRandomPoint(LIKES.MIN, LIKES.MAX),
-        comments: generateComments()
-      });
-    }
-    return photos;
-  };
-
-  window.generateBigPictureComment = function (comment, socialComment) {
-    var li = socialComment.cloneNode(true);
-    var img = li.querySelector('.social__picture');
-    img.src = comment.avatar;
-    img.alt = comment.name;
-    li.querySelector('.social__text').textContent = comment.message;
-    return li;
   };
 })();
