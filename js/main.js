@@ -106,12 +106,13 @@ var showBigPictureComments = function (comments) {
     socialFragment.appendChild(generateBigPictureComment(comments[i], socialComment));
   }
   var socialComments = document.querySelector('.social__comments');
+  socialComments.innerHTML = '';
   socialComments.appendChild(socialFragment);
 };
 
-var showBigPicture = function (photo) {
+var bigPicture = document.querySelector('.big-picture');
 
-  var bigPicture = document.querySelector('.big-picture');
+var showBigPicture = function (photo) {
   bigPicture.classList.remove('hidden');
 
   var bigPictureImg = document.querySelector('.big-picture__img');
@@ -128,7 +129,15 @@ var showBigPicture = function (photo) {
   showBigPictureComments(photo.comments);
 };
 
-showBigPicture(photos[getRandomArrayIndex(photos)]);
+// showBigPicture(photos[getRandomArrayIndex(photos)]);
+
+var thumbnails = document.querySelectorAll('.picture');
+thumbnails.forEach(function (thumbnail, index) {
+  thumbnail.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    showBigPicture(photos[index]);
+  });
+});
 
 var socialCommentCount = document.querySelector('.social__comment-count');
 socialCommentCount.classList.add('visually-hidden');
@@ -139,7 +148,8 @@ commentsLoader.classList.add('visually-hidden');
 // Открытие, закрытие окна загрузки фотографии
 var uploadFile = document.querySelector('#upload-file');
 var imgUploadOverlay = document.querySelector('.img-upload__overlay');
-var buttonClose = document.querySelector('.img-upload__cancel');
+var buttonCloses = document.querySelectorAll('.cancel');
+var comment = document.querySelector('.social__footer-text');
 var BUTTON_ESC = 27;
 
 uploadFile.onchange = function () {
@@ -155,14 +165,20 @@ var closeEditPicture = function () {
   imgUploadOverlay.classList.add('hidden');
   setDefaultEffect();
   clearUploadFile();
+  bigPicture.classList.add('hidden');
 };
 
-buttonClose.addEventListener('click', function () {
-  closeEditPicture();
+buttonCloses.forEach(function (buttonClose) {
+  buttonClose.addEventListener('click', function () {
+    closeEditPicture();
+  });
 });
 
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === BUTTON_ESC) {
+    if (document.activeElement === comment) {
+      return;
+    }
     closeEditPicture();
   }
 });
