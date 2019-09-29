@@ -87,9 +87,9 @@
     if (evt.target.className === 'picture__img') {
       var filePathArray = evt.target.src.split('/');
       var fileName = filePathArray[filePathArray.length - 2] + '/' + filePathArray[filePathArray.length - 1];
-      var currentPhoto = photos.filter(function (photo) {
+      var currentPhoto = photos.find(function (photo) {
         return photo.url === fileName;
-      })[0];
+      });
 
       showBigPicture(currentPhoto);
     }
