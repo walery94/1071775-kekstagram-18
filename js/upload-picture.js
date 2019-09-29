@@ -18,8 +18,8 @@
 
   buttonBigPictureClose.addEventListener('click', buttonBigPictureCloseClickHandler);
 
-  var hideSHowEffectLevel = function (hide) {
-    if (hide) {
+  var hideSHowEffectLevel = function (isHide) {
+    if (isHide) {
       effectLevel.style.display = 'none';
     } else {
       effectLevel.style.display = null;
@@ -51,7 +51,11 @@
 
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.data.BUTTON_ESC) {
-      if (document.activeElement === comment || document.activeElement === textComment) {
+      if (
+        document.activeElement === comment
+        || document.activeElement === textComment
+        || document.activeElement === hashTags
+      ) {
         return;
       }
       closeEditPictureClickHandler();
