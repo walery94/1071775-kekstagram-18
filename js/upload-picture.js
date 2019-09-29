@@ -93,26 +93,27 @@
       var scale = depth.getBoundingClientRect().width / line.getBoundingClientRect().width;
       var currentEffect = picture.classList;
 
-      if (currentEffect.contains('effects__preview--chrome')) {
-        picture.style.filter = 'grayscale(' + scale + ')';
-      }
-      if (currentEffect.contains('effects__preview--sepia')) {
-        picture.style.filter = 'sepia(' + scale + ')';
-      }
-      if (currentEffect.contains('effects__preview--marvin')) {
-        scale *= 100;
-        picture.style.filter = 'invert(' + scale + '%)';
-      }
-      if (currentEffect.contains('effects__preview--phobos')) {
-        scale *= 3;
-        picture.style.filter = 'blur(' + scale + 'px)';
-      }
-      if (currentEffect.contains('effects__preview--heat')) {
-        scale *= 3;
-        picture.style.filter = 'brightness(' + scale + ')';
-      }
-      if (currentEffect.contains('effects__preview--none')) {
-        picture.style.filter = null;
+      switch (true) {
+        case currentEffect.contains('effects__preview--chrome'):
+          picture.style.filter = 'grayscale(' + scale + ')';
+          break;
+        case currentEffect.contains('effects__preview--sepia'):
+          picture.style.filter = 'sepia(' + scale + ')';
+          break;
+        case currentEffect.contains('effects__preview--marvin'):
+          scale *= 100;
+          picture.style.filter = 'invert(' + scale + '%)';
+          break;
+        case currentEffect.contains('effects__preview--phobos'):
+          scale *= 3;
+          picture.style.filter = 'blur(' + scale + 'px)';
+          break;
+        case currentEffect.contains('effects__preview--heat'):
+          scale *= 3;
+          picture.style.filter = 'brightness(' + scale + ')';
+          break;
+        default:
+          picture.style.filter = null;
       }
     };
 
@@ -165,19 +166,6 @@
       default:
         picture.style.filter = null;
     }
-    // if (nameEffect === 'chrome') {
-    //   picture.style.filter = 'grayscale(1)';
-    // } else if (nameEffect === 'sepia') {
-    //   picture.style.filter = 'sepia(1)';
-    // } else if (nameEffect === 'marvin') {
-    //   picture.style.filter = 'invert(100%)';
-    // } else if (nameEffect === 'heat') {
-    //   picture.style.filter = 'brightness(3)';
-    // } else if (nameEffect === 'phobos') {
-    //   picture.style.filter = 'blur(3px)';
-    // } else {
-    //   picture.style.filter = null;
-    // }
 
     if (nameEffect === DEFAULT_EFFECT) {
       hideSHowEffectLevel(true);
