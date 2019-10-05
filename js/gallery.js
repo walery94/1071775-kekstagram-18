@@ -2,19 +2,6 @@
 
 (function () {
 
-  window.generatePhotos = function () {
-    var photos = [];
-    for (var i = 0; i < window.data.COUNT_OBJECTS; i++) {
-      photos.push({
-        url: 'photos/' + (i + 1) + '.jpg',
-        description: window.DESCRIPTION[window.getRandomArrayIndex(window.DESCRIPTION)],
-        likes: window.getRandomPoint(window.LIKES.MIN, window.LIKES.MAX),
-        comments: window.generateComments()
-      });
-    }
-    return photos;
-  };
-
   var picturesBlock = document.querySelector('.pictures');
   picturesBlock.addEventListener('click', function (evt) {
     if (evt.target.className === 'picture__img') {

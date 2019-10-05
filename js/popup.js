@@ -28,7 +28,7 @@
 
   var generateFragment = function (photos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.data.COUNT_OBJECTS; i++) {
+    for (var i = 0; i < photos.length; i++) {
       fragment.appendChild(createPhoto(photos[i]));
     }
     return fragment;
@@ -36,8 +36,19 @@
 
   var pictures = document.querySelector('.pictures');
 
-  var photos = window.generatePhotos();
-  pictures.appendChild(generateFragment(photos));
+  var generagePhotos = function (photos) {
+    window.data.photos = photos;
+    pictures.appendChild(generateFragment(photos));
+  };
+  // Сообщение об ошибке
+  var templateError = document.querySelector('#error').content.querySelector('.error');
+  var main = document.querySelector('main');
+
+  var showErrorMessage = function () {
+    main.appendChild(templateError);
+  };
+
+  window.loadPhotos(generagePhotos, showErrorMessage);
 
   var showBigPictureComments = function (comments) {
     var socialFragment = document.createDocumentFragment();
@@ -68,7 +79,5 @@
     description.textContent = photo.description;
     showBigPictureComments(photo.comments);
   };
-
-  window.data.photos = photos;
 
 })();
