@@ -2,17 +2,33 @@
 
 (function () {
 
-  window.generatePhotos = function () {
-    var photos = [];
-    for (var i = 0; i < window.data.COUNT_OBJECTS; i++) {
-      photos.push({
-        url: 'photos/' + (i + 1) + '.jpg',
-        description: window.DESCRIPTION[window.getRandomArrayIndex(window.DESCRIPTION)],
-        likes: window.getRandomPoint(window.LIKES.MIN, window.LIKES.MAX),
-        comments: window.generateComments()
-      });
+  var template = document.querySelector('#picture').content.querySelector('a');
+  var createPhoto = function (photo) {
+    var element = template.cloneNode(true);
+
+    element.querySelector('.picture__img').src = photo.url;
+
+    var paragraph = element.querySelector('.picture__info');
+
+    paragraph.querySelector('.picture__comments').textContent = photo.comments.length;
+    paragraph.querySelector('.picture__likes').textContent = photo.likes;
+
+    return element;
+  };
+
+  var generateFragment = function (photos) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < photos.length; i++) {
+      fragment.appendChild(createPhoto(photos[i]));
     }
-    return photos;
+    return fragment;
+  };
+
+  var pictures = document.querySelector('.pictures');
+
+  window.generatePhotos = function (photos) {
+    window.data.photos = photos;
+    pictures.appendChild(generateFragment(photos));
   };
 
   var picturesBlock = document.querySelector('.pictures');
