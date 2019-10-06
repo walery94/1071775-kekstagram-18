@@ -2,6 +2,15 @@
 
 (function () {
 
+  // Сообщение об ошибке
+  var templateError = document.querySelector('#error').content.querySelector('.error');
+  var main = document.querySelector('main');
+
+  window.showErrorMessage = function (message) {
+    templateError.querySelector('.error__title').textContent = message;
+    main.appendChild(templateError);
+  };
+
   window.loadPhotos = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -13,7 +22,7 @@
           onSuccess(xhr.response);
           break;
         default:
-          onError();
+          onError('Загрузка не удалась');
       }
     });
 

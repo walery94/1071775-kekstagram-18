@@ -2,6 +2,35 @@
 
 (function () {
 
+  var template = document.querySelector('#picture').content.querySelector('a');
+  var createPhoto = function (photo) {
+    var element = template.cloneNode(true);
+
+    element.querySelector('.picture__img').src = photo.url;
+
+    var paragraph = element.querySelector('.picture__info');
+
+    paragraph.querySelector('.picture__comments').textContent = photo.comments.length;
+    paragraph.querySelector('.picture__likes').textContent = photo.likes;
+
+    return element;
+  };
+
+  var generateFragment = function (photos) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < photos.length; i++) {
+      fragment.appendChild(createPhoto(photos[i]));
+    }
+    return fragment;
+  };
+
+  var pictures = document.querySelector('.pictures');
+
+  window.generatePhotos = function (photos) {
+    window.data.photos = photos;
+    pictures.appendChild(generateFragment(photos));
+  };
+
   var picturesBlock = document.querySelector('.pictures');
   picturesBlock.addEventListener('click', function (evt) {
     if (evt.target.className === 'picture__img') {
