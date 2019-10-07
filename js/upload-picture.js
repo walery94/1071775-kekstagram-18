@@ -45,6 +45,12 @@
     clearUploadFile();
   };
 
+  window.clearUploadForm = function () {
+    closeEditPictureClickHandler();
+    textComment.textContent = '';
+    hashTags.textContent = '';
+  };
+
   buttonCloseEdit.addEventListener('click', function () {
     closeEditPictureClickHandler();
   });
@@ -60,6 +66,8 @@
       }
       closeEditPictureClickHandler();
       buttonBigPictureCloseClickHandler();
+      window.closeSuccesUploadPopup();
+      window.closeErrorPopup();
     }
   });
 
@@ -227,13 +235,18 @@
   };
 
   var submitButton = document.querySelector('.img-upload__submit');
-  var sendPhoto = function () {
+  var form = document.querySelector('.img-upload__form');
+
+  var sendPhoto = function (evt) {
+    evt.preventDefault();
     var tags = hashTags.value.trim();
     if (tags.length !== 0) {
       if (!validateHashTags(tags)) {
         return;
       }
     }
+    var data = new FormData(form);
+    window.uploadPhoto(data, window.successUploadData, window.showErrorMessage);
   };
   submitButton.addEventListener('click', sendPhoto);
 
