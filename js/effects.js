@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
   var picture = document.querySelector('.img-upload__preview');
   // Передвижение ползунка
