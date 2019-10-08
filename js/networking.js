@@ -3,115 +3,111 @@
 (function () {
 
   // Сообщение об ошибке
-  var templateError = document.querySelector('#error').content.querySelector('.error');
-  var main = document.querySelector('main');
+  window.netorking = {
+    main: document.querySelector('main'),
+    templateError: document.querySelector('#error').content.querySelector('.error'),
+    successTemplate: document.querySelector('#success').content.querySelector('.success'),
 
-  window.showErrorMessage = function (message, showRetry, showNewUpload) {
-    window.clearUploadForm();
-    if (message) {
-      templateError.querySelector('.error__title').textContent = message;
+    showErrorMessage: function (message, showRetry, showNewUpload) {
+      window.clearUploadForm();
+      if (message) {
+        this.templateError.querySelector('.error__title').textContent = message;
+      }
+      if (!showRetry) {
+        var retryButton = this.templateError.querySelector('.error__buttons').children[0];
+        retryButton.remove();
+      }
+      if (!showNewUpload) {
+        var newUploadButton = this.templateError.querySelector('.error__buttons').children[1];
+        newUploadButton.remove();
+      }
+      this.main.appendChild(this.templateError);
+
+      var uploadErrorButton = document.querySelector('.error__button');
+      uploadErrorButton.addEventListener('click', function () {
+        window.netorking.closeErrorPopup();
+      });
+    },
+    closeSuccesUploadPopup: function () {
+      this.successTemplate.remove();
+    },
+    closeErrorPopup: function () {
+      this.templateError.remove();
+    },
+    successUploadData: function () {
+      window.clearUploadForm();
+      this.main.appendChild(this.successTemplate);
+
+      var uploadSuccessButton = document.querySelector('.success__button');
+      uploadSuccessButton.addEventListener('click', function () {
+        window.netorking.closeSuccesUploadPopup();
+      });
+    },
+    loadPhotos: function (onSuccess) {
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
+      xhr.timeout = 3000;
+
+      xhr.addEventListener('load', function () {
+        switch (xhr.status) {
+          case 200:
+            onSuccess(xhr.response);
+            break;
+          default:
+            window.netorking.showErrorMessage('Загрузка не удалась', true, false);
+        }
+      });
+
+      xhr.addEventListener('error', function () {
+        window.netorking.showErrorMessage();
+      });
+
+      xhr.addEventListener('timeout', function () {
+        window.netorking.showErrorMessage();
+      });
+
+      xhr.open('GET', window.data.LOAD_PHOTOS_URL);
+      xhr.send();
+    },
+    uploadPhoto: function (data) {
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
+      xhr.timeout = 3000;
+
+      xhr.addEventListener('load', function () {
+        switch (xhr.status) {
+          case 200:
+            window.netorking.successUploadData(xhr.response);
+            break;
+          default:
+            window.netorking.showErrorMessage('Загрузка не удалась', true, true);
+        }
+      });
+
+      xhr.addEventListener('error', function () {
+        window.netorking.showErrorMessage();
+      });
+
+      xhr.addEventListener('timeout', function () {
+        window.netorking.showErrorMessage();
+      });
+
+      xhr.open('POST', window.data.UPLOAD_PHOTOS_URL);
+      // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+      xhr.send(data);
     }
-    if (!showRetry) {
-      var retryButton = templateError.querySelector('.error__buttons').children[0];
-      retryButton.remove();
-    }
-    if (!showNewUpload) {
-      var newUploadButton = templateError.querySelector('.error__buttons').children[1];
-      newUploadButton.remove();
-    }
-    main.appendChild(templateError);
-
-    var uploadErrorButton = document.querySelector('.error__button');
-    uploadErrorButton.addEventListener('click', function () {
-      window.closeErrorPopup();
-    });
   };
-  var successTemplate = document.querySelector('#success').content.querySelector('.success');
-
-  window.closeSuccesUploadPopup = function () {
-    successTemplate.remove();
-  };
-
-  window.closeErrorPopup = function () {
-    templateError.remove();
-  };
-
-  window.successUploadData = function () {
-    window.clearUploadForm();
-    main.appendChild(successTemplate);
-
-    var uploadSuccessButton = document.querySelector('.success__button');
-    uploadSuccessButton.addEventListener('click', function () {
-      window.closeSuccesUploadPopup();
-    });
-  };
-
-  main.addEventListener('click', function (evt) {
+  window.netorking.main.addEventListener('click', function (evt) {
     switch (evt.target) {
-      case successTemplate:
-        window.closeSuccesUploadPopup();
+      case window.netorking.successTemplate:
+        window.netorking.closeSuccesUploadPopup();
         break;
-      case templateError:
-        window.closeErrorPopup();
+      case window.netorking.templateError:
+        window.netorking.closeErrorPopup();
         break;
-      case window.bigPicture:
-        window.bigPicture.classList.add('hidden');
+      case window.popup.bigPicture:
+        window.popup.bigPicture.classList.add('hidden');
         break;
     }
   });
-
-  window.loadPhotos = function (onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.timeout = 3000;
-
-    xhr.addEventListener('load', function () {
-      switch (xhr.status) {
-        case 200:
-          onSuccess(xhr.response);
-          break;
-        default:
-          onError('Загрузка не удалась', true, false);
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      onError();
-    });
-
-    xhr.addEventListener('timeout', function () {
-      onError();
-    });
-
-    xhr.open('GET', window.data.LOAD_PHOTOS_URL);
-    xhr.send();
-  };
-
-  window.uploadPhoto = function (data, onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.timeout = 3000;
-
-    xhr.addEventListener('load', function () {
-      switch (xhr.status) {
-        case 200:
-          onSuccess(xhr.response);
-          break;
-        default:
-          onError('Загрузка не удалась', true, true);
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      onError();
-    });
-
-    xhr.addEventListener('timeout', function () {
-      onError();
-    });
-
-    xhr.open('POST', window.data.UPLOAD_PHOTOS_URL);
-    // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-    xhr.send(data);
-  };
 })();
