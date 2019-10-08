@@ -47,8 +47,8 @@
 
   window.clearUploadForm = function () {
     closeEditPictureClickHandler();
-    textComment.textContent = '';
-    hashTags.textContent = '';
+    textComment.value = '';
+    hashTags.value = '';
   };
 
   buttonCloseEdit.addEventListener('click', function () {

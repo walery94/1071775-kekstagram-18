@@ -6,9 +6,18 @@
   var templateError = document.querySelector('#error').content.querySelector('.error');
   var main = document.querySelector('main');
 
-  window.showErrorMessage = function (message) {
+  window.showErrorMessage = function (message, showRetry, showNewUpload) {
+    window.clearUploadForm();
     if (message) {
       templateError.querySelector('.error__title').textContent = message;
+    }
+    if (!showRetry) {
+      var retryButton = templateError.querySelector('.error__buttons').children[0];
+      retryButton.remove();
+    }
+    if (!showNewUpload) {
+      var newUploadButton = templateError.querySelector('.error__buttons').children[1];
+      newUploadButton.remove();
     }
     main.appendChild(templateError);
 
@@ -18,7 +27,6 @@
     });
   };
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
-
 
   window.closeSuccesUploadPopup = function () {
     successTemplate.remove();
@@ -63,7 +71,7 @@
           onSuccess(xhr.response);
           break;
         default:
-          onError('Загрузка не удалась');
+          onError('Загрузка не удалась', true, false);
       }
     });
 
@@ -90,7 +98,7 @@
           onSuccess(xhr.response);
           break;
         default:
-          onError('Загрузка не удалась');
+          onError('Загрузка не удалась', true, true);
       }
     });
 
