@@ -3,8 +3,6 @@
 (function () {
   var bigPicture = document.querySelector('.big-picture');
 
-  window.networking.loadPhotos(window.gallery.generatePhotos, window.networking.showErrorMessage);
-
   var generateBigPictureComment = function (comment, socialComment) {
     var li = socialComment.cloneNode(true);
     var img = li.querySelector('.social__picture');

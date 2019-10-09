@@ -9,16 +9,10 @@
   var pin = document.querySelector('.effect-level__pin');
   // Наложение эффекта на фотографию
   var effects = document.querySelectorAll('input[name="effect"]');
-  var EFFECTS_NAMES = [];
-  var PREFIX = 'effects__preview--';
-  var DEFAULT_EFFECT = 'none';
   // Масштаб изображения
   var scaleControl = document.querySelector('.scale__control--value');
   var smallControl = document.querySelector('.scale__control--smaller');
   var bigControl = document.querySelector('.scale__control--bigger');
-  var STEP = 25;
-  var MIN_PICTURE_SIZE = 25;
-  var MAX_PICTURE_SIZE = 100;
 
   var hideSHowEffectLevel = function (isHide) {
     if (isHide) {
@@ -112,17 +106,17 @@
         picture.style.filter = null;
     }
 
-    if (nameEffect === DEFAULT_EFFECT) {
+    if (nameEffect === window.constants.DEFAULT_EFFECT) {
       hideSHowEffectLevel(true);
     } else {
       hideSHowEffectLevel(false);
     }
 
-    for (var i = 0; i < EFFECTS_NAMES.length; i++) {
-      if (EFFECTS_NAMES[i] === nameEffect) {
-        picture.classList.toggle(PREFIX + nameEffect);
+    for (var i = 0; i < window.constants.EFFECTS_NAMES.length; i++) {
+      if (window.constants.EFFECTS_NAMES[i] === nameEffect) {
+        picture.classList.toggle(window.constants.PREFIX + nameEffect);
       } else {
-        picture.classList.remove(PREFIX + EFFECTS_NAMES[i]);
+        picture.classList.remove(window.constants.PREFIX + window.constants.EFFECTS_NAMES[i]);
       }
     }
   };
@@ -133,18 +127,20 @@
   };
 
   effects.forEach(function (effect) {
-    EFFECTS_NAMES.push(effect.value);
+    window.constants.EFFECTS_NAMES.push(effect.value);
     effect.addEventListener('click', applyEffect);
   });
 
   var setDefaultEffect = function () {
-    setActiveEffect(DEFAULT_EFFECT);
+    var defaultInput = document.querySelector('#effect-' + window.constants.DEFAULT_EFFECT);
+    defaultInput.checked = true;
+    setActiveEffect(window.constants.DEFAULT_EFFECT);
   };
 
   var resizePicture = function (sign) {
     var currentValue = parseInt(scaleControl.value.replace('%', ''), 10);
-    var newValue = currentValue + STEP * sign;
-    if (newValue <= MAX_PICTURE_SIZE && newValue >= MIN_PICTURE_SIZE) {
+    var newValue = currentValue + window.constants.STEP * sign;
+    if (newValue <= window.constants.MAX_PICTURE_SIZE && newValue >= window.constants.MIN_PICTURE_SIZE) {
       scaleControl.value = newValue + '%';
       picture.style.transform = 'scale(' + (newValue / 100) + ')';
     }

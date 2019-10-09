@@ -83,7 +83,7 @@
       onError();
     });
 
-    xhr.open('GET', window.data.LOAD_PHOTOS_URL);
+    xhr.open('GET', window.constants.LOAD_PHOTOS_URL);
     xhr.send();
   };
 
@@ -110,7 +110,7 @@
       onError();
     });
 
-    xhr.open('POST', window.data.UPLOAD_PHOTOS_URL);
+    xhr.open('POST', window.constants.UPLOAD_PHOTOS_URL);
     // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
     xhr.send(data);
   };
