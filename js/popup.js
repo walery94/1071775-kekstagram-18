@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var bigPicture = document.querySelector('.big-picture');
+
+  window.networking.loadPhotos(window.gallery.generatePhotos, window.networking.showErrorMessage);
 
   var generateBigPictureComment = function (comment, socialComment) {
     var li = socialComment.cloneNode(true);
@@ -10,8 +13,6 @@
     li.querySelector('.social__text').textContent = comment.message;
     return li;
   };
-
-  window.loadPhotos(window.generatePhotos, window.showErrorMessage);
 
   var showBigPictureComments = function (comments) {
     var socialFragment = document.createDocumentFragment();
@@ -24,10 +25,8 @@
     socialComments.appendChild(socialFragment);
   };
 
-  window.bigPicture = document.querySelector('.big-picture');
-
-  window.showBigPicture = function (photo) {
-    window.bigPicture.classList.remove('hidden');
+  var showBigPicture = function (photo) {
+    bigPicture.classList.remove('hidden');
 
     var bigPictureImg = document.querySelector('.big-picture__img');
     bigPictureImg.querySelector('img').src = photo.url;
@@ -43,4 +42,8 @@
     showBigPictureComments(photo.comments);
   };
 
+  window.popup = {
+    showBigPicture: showBigPicture,
+    bigPicture: bigPicture
+  };
 })();
