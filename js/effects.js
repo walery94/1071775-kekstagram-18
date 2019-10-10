@@ -13,6 +13,7 @@
   var scaleControl = document.querySelector('.scale__control--value');
   var smallControl = document.querySelector('.scale__control--smaller');
   var bigControl = document.querySelector('.scale__control--bigger');
+  var effectNames = [];
 
   var hideSHowEffectLevel = function (isHide) {
     if (isHide) {
@@ -112,11 +113,11 @@
       hideSHowEffectLevel(false);
     }
 
-    for (var i = 0; i < window.constants.EFFECTS_NAMES.length; i++) {
-      if (window.constants.EFFECTS_NAMES[i] === nameEffect) {
+    for (var i = 0; i < effectNames.length; i++) {
+      if (effectNames[i] === nameEffect) {
         picture.classList.toggle(window.constants.PREFIX + nameEffect);
       } else {
-        picture.classList.remove(window.constants.PREFIX + window.constants.EFFECTS_NAMES[i]);
+        picture.classList.remove(window.constants.PREFIX + effectNames[i]);
       }
     }
   };
@@ -127,7 +128,7 @@
   };
 
   effects.forEach(function (effect) {
-    window.constants.EFFECTS_NAMES.push(effect.value);
+    effectNames.push(effect.value);
     effect.addEventListener('click', applyEffect);
   });
 
