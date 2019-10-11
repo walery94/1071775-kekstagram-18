@@ -32,12 +32,14 @@
       commentsLoaderButton.classList.remove('visually-hidden');
 
       commentsLoaderButton.addEventListener('click', function () {
-        var nowCommentsCount = document.querySelectorAll('.social__comment').length;
-        if (nowCommentsCount + window.constants.COMMENTS_SHOW_STEP >= comments.length) {
+        var currentCommentsCount = document.querySelectorAll('.social__comment').length;
+        var newCommentsCount = currentCommentsCount + window.constants.COMMENTS_SHOW_STEP;
+
+        if (newCommentsCount >= comments.length) {
           displayComments = comments.slice();
           commentsLoaderButton.classList.add('visually-hidden');
         } else {
-          displayComments = comments.slice(0, nowCommentsCount + window.constants.COMMENTS_SHOW_STEP);
+          displayComments = comments.slice(0, newCommentsCount);
         }
         createComments(displayComments);
       });
