@@ -8,18 +8,11 @@
   var buttonCloseEdit = document.querySelector('.img-upload__cancel');
   var comment = document.querySelector('.social__footer-text');
   var textComment = document.querySelector('.text__description');
-  var buttonBigPictureClose = document.querySelector('.big-picture__cancel');
   // Теги
   var hashTags = document.querySelector('.text__hashtags');
   // Отправка формы
   var submitButton = document.querySelector('.img-upload__submit');
   var form = document.querySelector('.img-upload__form');
-
-  var buttonBigPictureCloseClickHandler = function () {
-    window.popup.bigPicture.classList.add('hidden');
-  };
-
-  buttonBigPictureClose.addEventListener('click', buttonBigPictureCloseClickHandler);
 
   uploadFile.onchange = function (evt) {
     var file = evt.target.files[0];
@@ -58,23 +51,35 @@
   });
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.constants.BUTTON_ESC) {
-      if (
-        document.activeElement === comment
-        || document.activeElement === textComment
-        || document.activeElement === hashTags
-      ) {
-        return;
-      }
-      closeEditPictureClickHandler();
-      buttonBigPictureCloseClickHandler();
-      window.networking.closeSuccessUploadPopup();
-      window.networking.closeErrorPopup();
+    switch (evt.keyCode) {
+      case window.constants.BUTTON_ESC:
+        if (
+          document.activeElement === comment
+          || document.activeElement === textComment
+          || document.activeElement === hashTags
+        ) {
+          return;
+        }
+        closeEditPictureClickHandler();
+        window.gallery.buttonBigPictureCloseClickHandler();
+        window.networking.closeSuccessUploadPopup();
+        window.networking.closeErrorPopup();
+        break;
+      case window.constants.BUTTON_ENTER:
+        if (document.activeElement.classList.contains('picture')) {
+          var image = document.activeElement.querySelector('.picture__img').src;
+          window.gallery.findAndShowBigPicture(image.src);
+        }
+        break;
     }
   });
 
   hashTags.addEventListener('input', function () {
     hashTags.setCustomValidity('');
+  });
+
+  textComment.addEventListener('input', function () {
+    textComment.setCustomValidity('');
   });
 
   var validateTag = function (tag) {
@@ -94,6 +99,7 @@
         return false;
       }
     }
+
     var sortedTags = tagsArray.slice().map(function (el) {
       return el.toLowerCase();
     }).sort();
@@ -111,6 +117,15 @@
     var tags = hashTags.value.trim();
     if (tags.length !== 0) {
       if (!validateHashTags(tags)) {
+        hashTags.style = 'border: 3px solid red;';
+        return;
+      }
+    }
+    var photoComment = textComment.value.trim();
+    if (photoComment.length > 0) {
+      if (photoComment.length > 140) {
+        textComment.setCustomValidity('Длина комментария не должна быть более 140 символов');
+        textComment.style = 'border: 3px solid red;';
         return;
       }
     }

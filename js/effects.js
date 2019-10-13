@@ -112,14 +112,13 @@
     } else {
       hideSHowEffectLevel(false);
     }
-
-    for (var i = 0; i < effectNames.length; i++) {
-      if (effectNames[i] === nameEffect) {
+    effectNames.forEach(function (effect) {
+      if (effect === nameEffect) {
         picture.classList.toggle(window.constants.PREFIX + nameEffect);
       } else {
-        picture.classList.remove(window.constants.PREFIX + effectNames[i]);
+        picture.classList.remove(window.constants.PREFIX + effect);
       }
-    }
+    });
   };
 
   var applyEffect = function (evt) {

@@ -15,9 +15,9 @@
   var createComments = function (comments) {
     var socialFragment = document.createDocumentFragment();
     var socialComment = document.querySelector('.social__comment');
-    for (var i = 0; i < comments.length; i++) {
-      socialFragment.appendChild(generateBigPictureComment(comments[i], socialComment));
-    }
+    comments.forEach(function (comment) {
+      socialFragment.appendChild(generateBigPictureComment(comment, socialComment));
+    });
     var socialComments = document.querySelector('.social__comments');
     socialComments.innerHTML = '';
     socialComments.appendChild(socialFragment);

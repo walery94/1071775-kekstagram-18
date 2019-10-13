@@ -30,9 +30,11 @@
     }
     main.appendChild(templateError);
 
-    var uploadErrorButton = document.querySelector('.error__button');
-    uploadErrorButton.addEventListener('click', function () {
-      closeErrorPopup();
+    var uploadErrorButton = document.querySelectorAll('.error__button');
+    uploadErrorButton.forEach(function (element) {
+      element.addEventListener('click', function () {
+        closeErrorPopup();
+      });
     });
   };
 

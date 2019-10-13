@@ -2,6 +2,7 @@
 
 (function () {
   var BUTTON_ESC = 27;
+  var BUTTON_ENTER = 13;
   var LOAD_PHOTOS_URL = 'https://js.dump.academy/kekstagram/data';
   var UPLOAD_PHOTOS_URL = 'https://js.dump.academy/kekstagram';
   var PICTURES_ON_PAGE = 25;
@@ -40,6 +41,7 @@
     ACTIVE_CLASS_FILTER: ACTIVE_CLASS_FILTER,
     COMMENTS_SHOW_STEP: COMMENTS_SHOW_STEP,
     COMMENTS_SHOW: COMMENTS_SHOW,
-    FILE_TYPES: FILE_TYPES
+    FILE_TYPES: FILE_TYPES,
+    BUTTON_ENTER: BUTTON_ENTER
   };
 })();
