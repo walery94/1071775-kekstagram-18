@@ -21,10 +21,24 @@
 
   buttonBigPictureClose.addEventListener('click', buttonBigPictureCloseClickHandler);
 
-  uploadFile.onchange = function () {
-    imgUploadOverlay.classList.remove('hidden');
-    window.effects.scaleControl.value = window.constants.PICTURE_DEFAULT_SIZE + '%';
-    window.effects.hideSHowEffectLevel(true);
+  uploadFile.onchange = function (evt) {
+    var file = evt.target.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = window.constants.FILE_TYPES.some(function (extension) {
+      return fileName.endsWith(extension);
+    });
+    if (matches) {
+      imgUploadOverlay.classList.remove('hidden');
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function (e) {
+        if (e.target.readyState === FileReader.DONE) {
+          window.effects.picture.querySelector('img').src = e.target.result;
+        }
+      };
+      window.effects.scaleControl.value = window.constants.PICTURE_DEFAULT_SIZE + '%';
+      window.effects.hideSHowEffectLevel(true);
+    }
   };
 
   var closeEditPictureClickHandler = function () {
@@ -54,7 +68,7 @@
       }
       closeEditPictureClickHandler();
       buttonBigPictureCloseClickHandler();
-      window.networking.closeSuccesUploadPopup();
+      window.networking.closeSuccessUploadPopup();
       window.networking.closeErrorPopup();
     }
   });

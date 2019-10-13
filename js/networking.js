@@ -7,7 +7,7 @@
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var main = document.querySelector('main');
 
-  var closeSuccesUploadPopup = function () {
+  var closeSuccessUploadPopup = function () {
     successTemplate.remove();
   };
 
@@ -42,14 +42,14 @@
 
     var uploadSuccessButton = document.querySelector('.success__button');
     uploadSuccessButton.addEventListener('click', function () {
-      closeSuccesUploadPopup();
+      closeSuccessUploadPopup();
     });
   };
 
   main.addEventListener('click', function (evt) {
     switch (evt.target) {
       case successTemplate:
-        closeSuccesUploadPopup();
+        closeSuccessUploadPopup();
         break;
       case templateError:
         closeErrorPopup();
@@ -120,7 +120,7 @@
     loadPhotos: loadPhotos,
     successUploadData: successUploadData,
     showErrorMessage: showErrorMessage,
-    closeSuccesUploadPopup: closeSuccesUploadPopup,
+    closeSuccessUploadPopup: closeSuccessUploadPopup,
     closeErrorPopup: closeErrorPopup
   };
 })();

@@ -160,6 +160,7 @@
   window.effects = {
     hideSHowEffectLevel: hideSHowEffectLevel,
     setDefaultEffect: setDefaultEffect,
-    scaleControl: scaleControl
+    scaleControl: scaleControl,
+    picture: picture
   };
 })();

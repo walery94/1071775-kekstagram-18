@@ -19,6 +19,7 @@
   var ACTIVE_CLASS_FILTER = 'img-filters__button--active';
   var COMMENTS_SHOW_STEP = 5;
   var COMMENTS_SHOW = 5;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   window.constants = {
     BUTTON_ESC: BUTTON_ESC,
@@ -38,6 +39,7 @@
     MAX_PICTURE_SIZE: MAX_PICTURE_SIZE,
     ACTIVE_CLASS_FILTER: ACTIVE_CLASS_FILTER,
     COMMENTS_SHOW_STEP: COMMENTS_SHOW_STEP,
-    COMMENTS_SHOW: COMMENTS_SHOW
+    COMMENTS_SHOW: COMMENTS_SHOW,
+    FILE_TYPES: FILE_TYPES
   };
 })();
