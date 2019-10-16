@@ -6,6 +6,9 @@
   var templateError = document.querySelector('#error').content.querySelector('.error');
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var main = document.querySelector('main');
+  var uploadErrorButton = templateError.querySelectorAll('.error__button');
+  var retryButton = uploadErrorButton[0];
+  var newUploadButton = uploadErrorButton[1];
 
   var closeSuccessUploadPopup = function () {
     successTemplate.remove();
@@ -15,27 +18,33 @@
     templateError.remove();
   };
 
-  var showErrorMessage = function (message, showRetry, showNewUpload) {
+  newUploadButton.addEventListener('click', function () {
+    closeErrorPopup();
     window.uploadPicture.clearUploadForm();
+    window.uploadPicture.uploadFile.click();
+  });
+
+  retryButton.addEventListener('click', function () {
+    closeErrorPopup();
+    window.uploadPicture.imgUploadOverlay.classList.remove('hidden');
+  });
+
+  var showErrorMessage = function (message, showRetry, showNewUpload) {
+    uploadErrorButton.forEach(function (button) {
+      button.style.display = '';
+    });
+    window.uploadPicture.imgUploadOverlay.classList.add('hidden');
+
     if (message) {
       templateError.querySelector('.error__title').textContent = message;
     }
     if (!showRetry) {
-      var retryButton = templateError.querySelector('.error__buttons').children[0];
-      retryButton.remove();
+      retryButton.style.display = 'none';
     }
     if (!showNewUpload) {
-      var newUploadButton = templateError.querySelector('.error__buttons').children[1];
-      newUploadButton.remove();
+      newUploadButton.style.display = 'none';
     }
     main.appendChild(templateError);
-
-    var uploadErrorButton = document.querySelectorAll('.error__button');
-    uploadErrorButton.forEach(function (element) {
-      element.addEventListener('click', function () {
-        closeErrorPopup();
-      });
-    });
   };
 
   var successUploadData = function () {
@@ -62,21 +71,28 @@
     }
   });
 
-  var loadPhotos = function (onSuccess, onError) {
+  var request = function (method, url, data, onSuccess, onError, showNewUpload) {
+    if (!data) {
+      data = '';
+    }
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    xhr.timeout = 3000;
+    xhr.timeout = window.constants.XHR_TIMEOUT_REQUEST;
+    var response = {
+      'error': true,
+      'data': ''
+    };
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case 200:
+        case window.constants.SUCCESS_STATUS_CODE:
           onSuccess(xhr.response);
           break;
         default:
-          onError('Загрузка не удалась', true, false);
+          onError('Загрузка не удалась', true, showNewUpload);
       }
+      return response;
     });
-
     xhr.addEventListener('error', function () {
       onError();
     });
@@ -85,36 +101,16 @@
       onError();
     });
 
-    xhr.open('GET', window.constants.LOAD_PHOTOS_URL);
-    xhr.send();
+    xhr.open(method, url);
+    xhr.send(data);
+  };
+
+  var loadPhotos = function (onSuccess, onError) {
+    request('GET', window.constants.LOAD_PHOTOS_URL, '', onSuccess, onError, false);
   };
 
   var uploadPhoto = function (data, onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.timeout = 3000;
-
-    xhr.addEventListener('load', function () {
-      switch (xhr.status) {
-        case 200:
-          onSuccess(xhr.response);
-          break;
-        default:
-          onError('Загрузка не удалась', true, true);
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      onError();
-    });
-
-    xhr.addEventListener('timeout', function () {
-      onError();
-    });
-
-    xhr.open('POST', window.constants.UPLOAD_PHOTOS_URL);
-    // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-    xhr.send(data);
+    request('POST', window.constants.UPLOAD_PHOTOS_URL, data, onSuccess, onError, true);
   };
 
   window.networking = {
