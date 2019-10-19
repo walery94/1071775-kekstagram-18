@@ -15,15 +15,15 @@
   var bigControl = document.querySelector('.scale__control--bigger');
   var effectNames = [];
 
-  var hideSHowEffectLevel = function (isHide) {
+  var toggleEffectLevel = function (isHide) {
     if (isHide) {
       effectLevel.style.display = 'none';
-    } else {
-      effectLevel.style.display = null;
-      var defaultWidth = line.getBoundingClientRect().width;
-      depth.style.width = defaultWidth + 'px';
-      pin.style.left = defaultWidth + 'px';
+      return;
     }
+    effectLevel.style.display = null;
+    var defaultWidth = line.getBoundingClientRect().width;
+    depth.style.width = defaultWidth + 'px';
+    pin.style.left = defaultWidth + 'px';
   };
 
   pin.addEventListener('mousedown', function (evt) {
@@ -49,30 +49,30 @@
       pin.style.left = offset + 'px';
 
       var scale = depth.getBoundingClientRect().width / line.getBoundingClientRect().width;
-      var currentEffect = picture.classList;
+      var currentEffects = picture.classList;
+      var pictureStyle = null;
 
       switch (true) {
-        case currentEffect.contains('effects__preview--chrome'):
-          picture.style.filter = 'grayscale(' + scale + ')';
+        case currentEffects.contains('effects__preview--chrome'):
+          pictureStyle = 'grayscale(' + scale + ')';
           break;
-        case currentEffect.contains('effects__preview--sepia'):
-          picture.style.filter = 'sepia(' + scale + ')';
+        case currentEffects.contains('effects__preview--sepia'):
+          pictureStyle = 'sepia(' + scale + ')';
           break;
-        case currentEffect.contains('effects__preview--marvin'):
+        case currentEffects.contains('effects__preview--marvin'):
           scale *= 100;
-          picture.style.filter = 'invert(' + scale + '%)';
+          pictureStyle = 'invert(' + scale + '%)';
           break;
-        case currentEffect.contains('effects__preview--phobos'):
+        case currentEffects.contains('effects__preview--phobos'):
           scale *= 3;
-          picture.style.filter = 'blur(' + scale + 'px)';
+          pictureStyle = 'blur(' + scale + 'px)';
           break;
-        case currentEffect.contains('effects__preview--heat'):
+        case currentEffects.contains('effects__preview--heat'):
           scale *= 3;
-          picture.style.filter = 'brightness(' + scale + ')';
+          pictureStyle = 'brightness(' + scale + ')';
           break;
-        default:
-          picture.style.filter = null;
       }
+      picture.style.filter = pictureStyle;
     };
 
     var onMouseUp = function (upEvt) {
@@ -108,9 +108,9 @@
     }
 
     if (nameEffect === window.constants.DEFAULT_EFFECT) {
-      hideSHowEffectLevel(true);
+      toggleEffectLevel(true);
     } else {
-      hideSHowEffectLevel(false);
+      toggleEffectLevel(false);
     }
     effectNames.forEach(function (effect) {
       if (effect === nameEffect) {
@@ -142,7 +142,7 @@
     var newValue = currentValue + window.constants.STEP * sign;
     if (newValue <= window.constants.MAX_PICTURE_SIZE && newValue >= window.constants.MIN_PICTURE_SIZE) {
       scaleControl.value = newValue + '%';
-      picture.style.transform = 'scale(' + (newValue / 100) + ')';
+      picture.style.transform = 'scale(' + (newValue / window.constants.PICTURE_RESIZE_PERCENT) + ')';
     }
   };
 
@@ -157,7 +157,7 @@
   });
 
   window.effects = {
-    hideSHowEffectLevel: hideSHowEffectLevel,
+    toggleEffectLevel: toggleEffectLevel,
     setDefaultEffect: setDefaultEffect,
     scaleControl: scaleControl,
     picture: picture

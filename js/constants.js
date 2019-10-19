@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var BUTTON_ESC = 27;
   var BUTTON_ENTER = 13;
   var LOAD_PHOTOS_URL = 'https://js.dump.academy/kekstagram/data';
@@ -23,6 +24,8 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var SUCCESS_STATUS_CODE = 200;
   var XHR_TIMEOUT_REQUEST = 3000;
+  var PICTURE_RESIZE_PERCENT = 100;
+  var COMMET_MAX_LENGTH = 140;
 
   window.constants = {
     BUTTON_ESC: BUTTON_ESC,
@@ -46,6 +49,8 @@
     FILE_TYPES: FILE_TYPES,
     BUTTON_ENTER: BUTTON_ENTER,
     SUCCESS_STATUS_CODE: SUCCESS_STATUS_CODE,
-    XHR_TIMEOUT_REQUEST: XHR_TIMEOUT_REQUEST
+    XHR_TIMEOUT_REQUEST: XHR_TIMEOUT_REQUEST,
+    PICTURE_RESIZE_PERCENT: PICTURE_RESIZE_PERCENT,
+    COMMET_MAX_LENGTH: COMMET_MAX_LENGTH
   };
 })();

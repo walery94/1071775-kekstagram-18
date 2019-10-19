@@ -47,7 +47,7 @@
     main.appendChild(templateError);
   };
 
-  var successUploadData = function () {
+  var successUploadDataHandler = function () {
     window.uploadPicture.clearUploadForm();
     main.appendChild(successTemplate);
 
@@ -116,7 +116,7 @@
   window.networking = {
     uploadPhoto: uploadPhoto,
     loadPhotos: loadPhotos,
-    successUploadData: successUploadData,
+    successUploadDataHandler: successUploadDataHandler,
     showErrorMessage: showErrorMessage,
     closeSuccessUploadPopup: closeSuccessUploadPopup,
     closeErrorPopup: closeErrorPopup
