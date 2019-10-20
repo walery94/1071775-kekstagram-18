@@ -49,25 +49,27 @@
       pin.style.left = offset + 'px';
 
       var scale = depth.getBoundingClientRect().width / line.getBoundingClientRect().width;
-      var currentEffects = picture.classList;
+      var currentEffect = Array.from(picture.classList).find(function (className) {
+        return className.startsWith('effects__preview');
+      }).split('--')[1];
       var pictureStyle = null;
 
-      switch (true) {
-        case currentEffects.contains('effects__preview--chrome'):
+      switch (currentEffect) {
+        case 'chrome':
           pictureStyle = 'grayscale(' + scale + ')';
           break;
-        case currentEffects.contains('effects__preview--sepia'):
+        case 'sepia':
           pictureStyle = 'sepia(' + scale + ')';
           break;
-        case currentEffects.contains('effects__preview--marvin'):
+        case 'marvin':
           scale *= 100;
           pictureStyle = 'invert(' + scale + '%)';
           break;
-        case currentEffects.contains('effects__preview--phobos'):
+        case 'phobos':
           scale *= 3;
           pictureStyle = 'blur(' + scale + 'px)';
           break;
-        case currentEffects.contains('effects__preview--heat'):
+        case 'heat':
           scale *= 3;
           pictureStyle = 'brightness(' + scale + ')';
           break;

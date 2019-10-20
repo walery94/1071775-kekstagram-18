@@ -17,9 +17,8 @@
   var buttonBigPictureCloseClickHandler = function () {
     body.classList.remove('modal-open');
     window.popup.bigPicture.classList.add('hidden');
+    buttonBigPictureClose.removeEventListener('click', buttonBigPictureCloseClickHandler);
   };
-
-  buttonBigPictureClose.addEventListener('click', buttonBigPictureCloseClickHandler);
 
   var setActiveButton = function (activeButtonId) {
     filterButtons.forEach(function (button) {
@@ -134,6 +133,7 @@
 
   window.networking.loadPhotos(generatePhotos, window.networking.showErrorMessage);
   window.gallery = {
+    buttonBigPictureClose: buttonBigPictureClose,
     findAndShowBigPicture: findAndShowBigPicture,
     buttonBigPictureCloseClickHandler: buttonBigPictureCloseClickHandler
   };

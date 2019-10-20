@@ -6,30 +6,40 @@
   var templateError = document.querySelector('#error').content.querySelector('.error');
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var main = document.querySelector('main');
-  var uploadErrorButton = templateError.querySelectorAll('.error__button');
-  var retryButton = uploadErrorButton[0];
-  var newUploadButton = uploadErrorButton[1];
 
-  var closeSuccessUploadPopup = function () {
+  var closeSuccessUploadPopupClickHandler = function () {
+    var uploadSuccessButton = document.querySelector('.success__button');
+    uploadSuccessButton.removeEventListener('click', closeSuccessUploadPopupClickHandler);
     successTemplate.remove();
   };
 
+  var closeErrorPopupRetryClickHandler = function () {
+    window.uploadPicture.imgUploadOverlay.classList.remove('hidden');
+    closeErrorPopup();
+  };
+
+  var closeErrorPopupNewUploadClickHandler = function () {
+    window.uploadPicture.clearUploadForm();
+    window.uploadPicture.uploadFile.click();
+    closeErrorPopup();
+  };
+
   var closeErrorPopup = function () {
+    var uploadErrorButton = templateError.querySelectorAll('.error__button');
+    var newUploadButton = uploadErrorButton[1];
+    var retryButton = uploadErrorButton[0];
+
+    retryButton.removeEventListener('click', closeErrorPopupRetryClickHandler);
+    newUploadButton.removeEventListener('click', closeErrorPopupNewUploadClickHandler);
+
     templateError.remove();
   };
 
-  newUploadButton.addEventListener('click', function () {
-    closeErrorPopup();
-    window.uploadPicture.clearUploadForm();
-    window.uploadPicture.uploadFile.click();
-  });
-
-  retryButton.addEventListener('click', function () {
-    closeErrorPopup();
-    window.uploadPicture.imgUploadOverlay.classList.remove('hidden');
-  });
-
   var showErrorMessage = function (message, showRetry, showNewUpload) {
+    var uploadErrorButton = templateError.querySelectorAll('.error__button');
+    var retryButton = uploadErrorButton[0];
+    var newUploadButton = uploadErrorButton[1];
+
     uploadErrorButton.forEach(function (button) {
       button.style.display = '';
     });
@@ -45,6 +55,10 @@
       newUploadButton.style.display = 'none';
     }
     main.appendChild(templateError);
+
+    newUploadButton.addEventListener('click', closeErrorPopupNewUploadClickHandler);
+
+    retryButton.addEventListener('click', closeErrorPopupRetryClickHandler);
   };
 
   var successUploadDataHandler = function () {
@@ -52,15 +66,13 @@
     main.appendChild(successTemplate);
 
     var uploadSuccessButton = document.querySelector('.success__button');
-    uploadSuccessButton.addEventListener('click', function () {
-      closeSuccessUploadPopup();
-    });
+    uploadSuccessButton.addEventListener('click', closeSuccessUploadPopupClickHandler);
   };
 
   main.addEventListener('click', function (evt) {
     switch (evt.target) {
       case successTemplate:
-        closeSuccessUploadPopup();
+        closeSuccessUploadPopupClickHandler();
         break;
       case templateError:
         closeErrorPopup();
@@ -118,7 +130,7 @@
     loadPhotos: loadPhotos,
     successUploadDataHandler: successUploadDataHandler,
     showErrorMessage: showErrorMessage,
-    closeSuccessUploadPopup: closeSuccessUploadPopup,
+    closeSuccessUploadPopupClickHandler: closeSuccessUploadPopupClickHandler,
     closeErrorPopup: closeErrorPopup
   };
 

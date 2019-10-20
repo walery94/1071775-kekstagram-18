@@ -22,6 +22,7 @@
     });
     if (matches) {
       imgUploadOverlay.classList.remove('hidden');
+      buttonCloseEdit.addEventListener('click', buttonCloseEditClickHandler);
       var reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = function (e) {
@@ -45,9 +46,10 @@
     hashTags.value = '';
   };
 
-  buttonCloseEdit.addEventListener('click', function () {
+  var buttonCloseEditClickHandler = function () {
     clearUploadForm();
-  });
+    buttonCloseEdit.removeEventListener('click', buttonCloseEditClickHandler);
+  };
 
   document.addEventListener('keydown', function (evt) {
     switch (evt.keyCode) {
@@ -61,7 +63,7 @@
         }
         clearUploadForm();
         window.gallery.buttonBigPictureCloseClickHandler();
-        window.networking.closeSuccessUploadPopup();
+        window.networking.closeSuccessUploadPopupClickHandler();
         window.networking.closeErrorPopup();
         break;
       case window.constants.BUTTON_ENTER:
@@ -87,17 +89,17 @@
     return (tag[0] === '#' && tag.length > window.constants.MIN_TEGS_LENGTH && tag.length < window.constants.MAX_TEGS_LENGTH);
   };
 
-  var validateHashTags = function (tagsString) {
+  var validateHashTags = function (tags) {
 
-    var tagsArray = tagsString.split(' ').map(function (tag) {
+    var tagsList = tags.split(' ').map(function (tag) {
       return tag.trim().toLowerCase();
     }).sort();
 
-    if (tagsArray.length > window.constants.MAX_TEGS) {
+    if (tagsList.length > window.constants.MAX_TEGS) {
       hashTags.setCustomValidity('Максимальное колличество хештегов: 5');
       return false;
     }
-    return tagsArray.every(function (tag, index, thisArray) {
+    return tagsList.every(function (tag, index, thisArray) {
       var hashes = tag.split('').filter(function (letter) {
         return letter === '#';
       });

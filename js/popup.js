@@ -47,7 +47,7 @@
 
   var showBigPicture = function (photo) {
     bigPicture.classList.remove('hidden');
-
+    window.gallery.buttonBigPictureClose.addEventListener('click', window.gallery.buttonBigPictureCloseClickHandler);
     var bigPictureImg = document.querySelector('.big-picture__img');
     bigPictureImg.querySelector('img').src = photo.url;
 
