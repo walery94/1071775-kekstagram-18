@@ -9,7 +9,9 @@
 
   var closeSuccessUploadPopupClickHandler = function () {
     var uploadSuccessButton = document.querySelector('.success__button');
-    uploadSuccessButton.removeEventListener('click', closeSuccessUploadPopupClickHandler);
+    if (uploadSuccessButton) {
+      uploadSuccessButton.removeEventListener('click', closeSuccessUploadPopupClickHandler);
+    }
     successTemplate.remove();
   };
 
