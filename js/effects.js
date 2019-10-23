@@ -145,4 +145,5 @@
     scaleControl: scaleControl,
     picture: picture
   };
+
 })();
