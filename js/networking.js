@@ -27,9 +27,9 @@
   };
 
   var closeErrorPopup = function () {
-    var uploadErrorButton = templateError.querySelectorAll('.error__button');
-    var newUploadButton = uploadErrorButton[1];
-    var retryButton = uploadErrorButton[0];
+    var uploadErrorButtons = templateError.querySelectorAll('.error__button');
+    var newUploadButton = uploadErrorButtons[1];
+    var retryButton = uploadErrorButtons[0];
 
     retryButton.removeEventListener('click', closeErrorPopupRetryClickHandler);
     newUploadButton.removeEventListener('click', closeErrorPopupNewUploadClickHandler);
@@ -38,11 +38,11 @@
   };
 
   var showErrorMessage = function (message, showRetry, showNewUpload) {
-    var uploadErrorButton = templateError.querySelectorAll('.error__button');
-    var retryButton = uploadErrorButton[0];
-    var newUploadButton = uploadErrorButton[1];
+    var uploadErrorButtons = templateError.querySelectorAll('.error__button');
+    var retryButton = uploadErrorButtons[0];
+    var newUploadButton = uploadErrorButtons[1];
 
-    uploadErrorButton.forEach(function (button) {
+    uploadErrorButtons.forEach(function (button) {
       button.style.display = '';
     });
     window.uploadPicture.imgUploadOverlay.classList.add('hidden');
@@ -86,9 +86,6 @@
   });
 
   var request = function (method, url, data, onSuccess, onError, showNewUpload) {
-    if (!data) {
-      data = '';
-    }
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.timeout = window.constants.XHR_TIMEOUT_REQUEST;
@@ -116,7 +113,7 @@
     });
 
     xhr.open(method, url);
-    xhr.send(data);
+    xhr.send(data || '');
   };
 
   var loadPhotos = function (onSuccess, onError) {

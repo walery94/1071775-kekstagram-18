@@ -15,7 +15,7 @@
   var bigControl = document.querySelector('.scale__control--bigger');
   var effectNames = [];
 
-  var toggleEffectLevel = function (isHide) {
+  var togglePictureLevel = function (isHide) {
     if (isHide) {
       effectLevel.style.display = 'none';
       return;
@@ -25,7 +25,31 @@
     depth.style.width = defaultWidth + 'px';
     pin.style.left = defaultWidth + 'px';
   };
+  var setEffectLevel = function (effectName, scale) {
+    var pictureStyle = null;
 
+    switch (effectName) {
+      case 'chrome':
+        pictureStyle = 'grayscale(' + scale + ')';
+        break;
+      case 'sepia':
+        pictureStyle = 'sepia(' + scale + ')';
+        break;
+      case 'marvin':
+        scale *= 100;
+        pictureStyle = 'invert(' + scale + '%)';
+        break;
+      case 'phobos':
+        scale *= 3;
+        pictureStyle = 'blur(' + scale + 'px)';
+        break;
+      case 'heat':
+        scale *= 3;
+        pictureStyle = 'brightness(' + scale + ')';
+        break;
+    }
+    picture.style.filter = pictureStyle;
+  };
   pin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var startX = evt.clientX;
@@ -49,32 +73,9 @@
       pin.style.left = offset + 'px';
 
       var scale = depth.getBoundingClientRect().width / line.getBoundingClientRect().width;
-      var currentEffect = Array.from(picture.classList).find(function (className) {
-        return className.startsWith('effects__preview');
-      }).split('--')[1];
-      var pictureStyle = null;
+      var currentEffect = document.querySelector('.effects__radio:checked').value;
 
-      switch (currentEffect) {
-        case 'chrome':
-          pictureStyle = 'grayscale(' + scale + ')';
-          break;
-        case 'sepia':
-          pictureStyle = 'sepia(' + scale + ')';
-          break;
-        case 'marvin':
-          scale *= 100;
-          pictureStyle = 'invert(' + scale + '%)';
-          break;
-        case 'phobos':
-          scale *= 3;
-          pictureStyle = 'blur(' + scale + 'px)';
-          break;
-        case 'heat':
-          scale *= 3;
-          pictureStyle = 'brightness(' + scale + ')';
-          break;
-      }
-      picture.style.filter = pictureStyle;
+      setEffectLevel(currentEffect, scale);
     };
 
     var onMouseUp = function (upEvt) {
@@ -89,31 +90,11 @@
   });
 
   var setActiveEffect = function (nameEffect) {
-    switch (nameEffect) {
-      case 'chrome':
-        picture.style.filter = 'grayscale(1)';
-        break;
-      case 'sepia':
-        picture.style.filter = 'sepia(1)';
-        break;
-      case 'marvin':
-        picture.style.filter = 'invert(100%)';
-        break;
-      case 'heat':
-        picture.style.filter = 'brightness(3)';
-        break;
-      case 'phobos':
-        picture.style.filter = 'blur(3px)';
-        break;
-      default:
-        picture.style.filter = null;
-    }
 
-    if (nameEffect === window.constants.DEFAULT_EFFECT) {
-      toggleEffectLevel(true);
-    } else {
-      toggleEffectLevel(false);
-    }
+    setEffectLevel(nameEffect, window.constants.DEFAULT_EFFECT_VALUES[nameEffect]);
+
+    togglePictureLevel(nameEffect === window.constants.DEFAULT_EFFECT);
+
     effectNames.forEach(function (effect) {
       if (effect === nameEffect) {
         picture.classList.toggle(window.constants.PREFIX + nameEffect);
@@ -133,7 +114,7 @@
     effect.addEventListener('click', applyEffect);
   });
 
-  var setDefaultEffect = function () {
+  var setDefaultPicture = function () {
     var defaultInput = document.querySelector('#effect-' + window.constants.DEFAULT_EFFECT);
     defaultInput.checked = true;
     setActiveEffect(window.constants.DEFAULT_EFFECT);
@@ -159,8 +140,8 @@
   });
 
   window.effects = {
-    toggleEffectLevel: toggleEffectLevel,
-    setDefaultEffect: setDefaultEffect,
+    togglePictureLevel: togglePictureLevel,
+    setDefaultPicture: setDefaultPicture,
     scaleControl: scaleControl,
     picture: picture
   };

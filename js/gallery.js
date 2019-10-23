@@ -13,6 +13,7 @@
   var filterButtons = document.querySelectorAll('.img-filters__button');
   var buttonBigPictureClose = document.querySelector('.big-picture__cancel');
   var body = document.querySelector('body');
+  var currentTimout;
 
   var buttonBigPictureCloseClickHandler = function () {
     body.classList.remove('modal-open');
@@ -36,10 +37,17 @@
     });
   };
 
+  var checkExistTimeout = function () {
+    if (currentTimout) {
+      clearTimeout(currentTimout);
+    }
+  };
+
   var popularFilterButtonClickHandler = function (evt) {
     if (!evt.target.classList.contains(window.constants.ACTIVE_CLASS_FILTER)) {
-      setTimeout(function () {
-        setActiveButton(evt.target.id);
+      setActiveButton(evt.target.id);
+      checkExistTimeout();
+      currentTimout = setTimeout(function () {
         var popular = window.constants.photos.slice();
         clearPictures();
         picturesBlock.appendChild(generateFragment(popular.slice(0, window.constants.PICTURES_ON_PAGE)));
@@ -49,8 +57,9 @@
 
   var randomFilterButtonClickHandler = function (evt) {
     if (!evt.target.classList.contains(window.constants.ACTIVE_CLASS_FILTER)) {
-      setTimeout(function () {
-        setActiveButton(evt.target.id);
+      setActiveButton(evt.target.id);
+      checkExistTimeout();
+      currentTimout = setTimeout(function () {
         var photos = window.constants.photos.slice();
         var randomPhotos = [];
         for (var i = 0; i < window.constants.PICTURES_RANDOM; i++) {
@@ -66,8 +75,9 @@
 
   var discussedFilterButtonClickHandler = function (evt) {
     if (!evt.target.classList.contains(window.constants.ACTIVE_CLASS_FILTER)) {
-      setTimeout(function () {
-        setActiveButton(evt.target.id);
+      setActiveButton(evt.target.id);
+      checkExistTimeout();
+      currentTimout = setTimeout(function () {
         var discussed = window.constants.photos.slice();
         discussed.sort(function (a, b) {
           return b.comments.length - a.comments.length;

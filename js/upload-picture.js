@@ -34,13 +34,13 @@
       window.effects.picture.style.transform = 'scale(' + (
         window.constants.PICTURE_DEFAULT_SIZE / window.constants.PICTURE_RESIZE_PERCENT
       ) + ')';
-      window.effects.toggleEffectLevel(true);
+      window.effects.togglePictureLevel(true);
     }
   };
 
   var clearUploadForm = function () {
     imgUploadOverlay.classList.add('hidden');
-    window.effects.setDefaultEffect();
+    window.effects.setDefaultPicture();
     uploadFile.value = '';
     textComment.value = '';
     hashTags.value = '';
@@ -81,7 +81,7 @@
   });
 
   textComment.addEventListener('input', function (evt) {
-    evt.target.style = 'border: none;';
+    evt.target.style = window.constants.BORDER_NO;
     textComment.setCustomValidity('');
   });
 
@@ -112,11 +112,9 @@
         return false;
       }
       var nextTag = thisArray[index + 1];
-      if (nextTag !== undefined) {
-        if (tag === nextTag) {
-          hashTags.setCustomValidity('Одинаковые хештеги: ' + tag + ' и ' + nextTag);
-          return false;
-        }
+      if (nextTag !== undefined && tag === nextTag) {
+        hashTags.setCustomValidity('Одинаковые хештеги: ' + tag + ' и ' + nextTag);
+        return false;
       }
       return true;
     });
@@ -124,20 +122,17 @@
 
   var sendPhoto = function (evt) {
     var tags = hashTags.value.trim();
-    if (tags.length !== 0) {
-      if (!validateHashTags(tags)) {
-        hashTags.style = 'border: 3px solid red;';
-        return;
-      }
+    if (tags.length !== 0 && !validateHashTags(tags)) {
+      hashTags.style = window.constants.BORDER_RED;
+      return;
     }
     var photoComment = textComment.value.trim();
-    if (photoComment.length > 0) {
-      if (photoComment.length > window.constants.COMMET_MAX_LENGTH) {
-        textComment.setCustomValidity('Длина комментария не должна быть более ' + window.constants.COMMET_MAX_LENGTH + ' символов');
-        textComment.style = 'border: 3px solid red;';
-        return;
-      }
+    if (photoComment.length > window.constants.COMMET_MAX_LENGTH) {
+      textComment.setCustomValidity('Длина комментария не должна быть более ' + window.constants.COMMET_MAX_LENGTH + ' символов');
+      textComment.style = window.constants.BORDER_RED;
+      return;
     }
+
     evt.preventDefault();
     var data = new FormData(form);
     window.networking.uploadPhoto(data, window.networking.successUploadDataHandler, window.networking.showErrorMessage);

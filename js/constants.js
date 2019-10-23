@@ -26,6 +26,15 @@
   var XHR_TIMEOUT_REQUEST = 3000;
   var PICTURE_RESIZE_PERCENT = 100;
   var COMMET_MAX_LENGTH = 140;
+  var DEFAULT_EFFECT_VALUES = {
+    'chrome': 1,
+    'sepia': 1,
+    'marvin': 100,
+    'heat': 3,
+    'phobos': 3,
+  };
+  var BORDER_RED = 'border: 3px solid red;';
+  var BORDER_NO = 'border: none;';
 
   window.constants = {
     BUTTON_ESC: BUTTON_ESC,
@@ -51,6 +60,9 @@
     SUCCESS_STATUS_CODE: SUCCESS_STATUS_CODE,
     XHR_TIMEOUT_REQUEST: XHR_TIMEOUT_REQUEST,
     PICTURE_RESIZE_PERCENT: PICTURE_RESIZE_PERCENT,
-    COMMET_MAX_LENGTH: COMMET_MAX_LENGTH
+    COMMET_MAX_LENGTH: COMMET_MAX_LENGTH,
+    DEFAULT_EFFECT_VALUES: DEFAULT_EFFECT_VALUES,
+    BORDER_RED: BORDER_RED,
+    BORDER_NO: BORDER_NO
   };
 })();
