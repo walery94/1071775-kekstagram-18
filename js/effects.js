@@ -30,22 +30,22 @@
 
     switch (effectName) {
       case 'chrome':
-        pictureStyle = 'grayscale(' + scale + ')';
+        pictureStyle = window.constants.EFFECT_STYLES[effectName] + '(' + scale + ')';
         break;
       case 'sepia':
         pictureStyle = 'sepia(' + scale + ')';
         break;
       case 'marvin':
-        scale *= 100;
-        pictureStyle = 'invert(' + scale + '%)';
+        scale *= window.constants.EFFECT_COEFFECENTS[effectName];
+        pictureStyle = window.constants.EFFECT_STYLES[effectName] + '(' + scale + '%)';
         break;
       case 'phobos':
-        scale *= 3;
-        pictureStyle = 'blur(' + scale + 'px)';
+        scale *= window.constants.EFFECT_COEFFECENTS[effectName];
+        pictureStyle = window.constants.EFFECT_STYLES[effectName] + '(' + scale + 'px)';
         break;
       case 'heat':
-        scale *= 3;
-        pictureStyle = 'brightness(' + scale + ')';
+        scale *= window.constants.EFFECT_COEFFECENTS[effectName];
+        pictureStyle = window.constants.EFFECT_STYLES[effectName] + '(' + scale + ')';
         break;
     }
     picture.style.filter = pictureStyle;

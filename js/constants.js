@@ -33,6 +33,19 @@
     'heat': 3,
     'phobos': 3,
   };
+  var EFFECT_COEFFECENTS = {
+    'marvin': 100,
+    'phobos': 3,
+    'heat': 3,
+  };
+  var EFFECT_STYLES = {
+    'chrome': 'grayscale',
+    'sepia': 'sepia',
+    'marvin': 'invert',
+    'phobos': 'blur',
+    'heat': 'brightness',
+  };
+
   var BORDER_RED = 'border: 3px solid red;';
   var BORDER_NO = 'border: none;';
 
@@ -63,6 +76,8 @@
     COMMET_MAX_LENGTH: COMMET_MAX_LENGTH,
     DEFAULT_EFFECT_VALUES: DEFAULT_EFFECT_VALUES,
     BORDER_RED: BORDER_RED,
-    BORDER_NO: BORDER_NO
+    BORDER_NO: BORDER_NO,
+    EFFECT_COEFFECENTS: EFFECT_COEFFECENTS,
+    EFFECT_STYLES: EFFECT_STYLES
   };
 })();

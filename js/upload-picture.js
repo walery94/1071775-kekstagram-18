@@ -44,6 +44,8 @@
     uploadFile.value = '';
     textComment.value = '';
     hashTags.value = '';
+    hashTags.style = window.constants.BORDER_NO;
+    textComment.style = window.constants.BORDER_NO;
   };
 
   var buttonCloseEditClickHandler = function () {
