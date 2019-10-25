@@ -15,6 +15,7 @@
   var MAX_TEGS = 5;
   var PREFIX = 'effects__preview--';
   var DEFAULT_EFFECT = 'none';
+  var DEFAULT_EFFECT_VALUE = 1;
   var STEP = 25;
   var MIN_PICTURE_SIZE = 25;
   var MAX_PICTURE_SIZE = 100;
@@ -26,26 +27,44 @@
   var XHR_TIMEOUT_REQUEST = 3000;
   var PICTURE_RESIZE_PERCENT = 100;
   var COMMET_MAX_LENGTH = 140;
-  var DEFAULT_EFFECT_VALUES = {
-    'chrome': 1,
-    'sepia': 1,
-    'marvin': 100,
-    'heat': 3,
-    'phobos': 3,
+  var EFFECT_DATA = {
+    'none': {
+      'default': 1,
+      'coefficient': 1,
+      'style': '',
+      'unit': ''
+    },
+    'chrome': {
+      'default': 1,
+      'coefficient': 1,
+      'style': 'grayscale',
+      'unit': ''
+    },
+    'sepia': {
+      'default': 1,
+      'coefficient': 1,
+      'style': 'sepia',
+      'unit': ''
+    },
+    'marvin': {
+      'default': 100,
+      'coefficient': 100,
+      'style': 'invert',
+      'unit': '%'
+    },
+    'heat': {
+      'default': 3,
+      'coefficient': 3,
+      'style': 'brightness',
+      'unit': ''
+    },
+    'phobos': {
+      'default': 3,
+      'coefficient': 3,
+      'style': 'blur',
+      'unit': 'px'
+    }
   };
-  var EFFECT_COEFFECENTS = {
-    'marvin': 100,
-    'phobos': 3,
-    'heat': 3,
-  };
-  var EFFECT_STYLES = {
-    'chrome': 'grayscale',
-    'sepia': 'sepia',
-    'marvin': 'invert',
-    'phobos': 'blur',
-    'heat': 'brightness',
-  };
-
   var BORDER_RED = 'border: 3px solid red;';
   var BORDER_NO = 'border: none;';
 
@@ -74,10 +93,9 @@
     XHR_TIMEOUT_REQUEST: XHR_TIMEOUT_REQUEST,
     PICTURE_RESIZE_PERCENT: PICTURE_RESIZE_PERCENT,
     COMMET_MAX_LENGTH: COMMET_MAX_LENGTH,
-    DEFAULT_EFFECT_VALUES: DEFAULT_EFFECT_VALUES,
     BORDER_RED: BORDER_RED,
     BORDER_NO: BORDER_NO,
-    EFFECT_COEFFECENTS: EFFECT_COEFFECENTS,
-    EFFECT_STYLES: EFFECT_STYLES
+    EFFECT_DATA: EFFECT_DATA,
+    DEFAULT_EFFECT_VALUE: DEFAULT_EFFECT_VALUE
   };
 })();

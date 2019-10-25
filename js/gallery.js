@@ -40,13 +40,13 @@
     }
   };
 
-  var popularFilterButtonClickHandler = function () {
+  var popularFilterButtonHandler = function () {
     var popular = window.constants.photos.slice();
     clearPictures();
     picturesBlock.appendChild(generateFragment(popular.slice(0, window.constants.PICTURES_ON_PAGE)));
   };
 
-  var randomFilterButtonClickHandler = function () {
+  var randomFilterButtonHandler = function () {
     var photos = window.constants.photos.slice();
     var randomPhotos = [];
     for (var i = 0; i < window.constants.PICTURES_RANDOM; i++) {
@@ -58,7 +58,7 @@
     picturesBlock.appendChild(generateFragment(randomPhotos));
   };
 
-  var discussedFilterButtonClickHandler = function () {
+  var discussedFilterButtonHandler = function () {
     var discussed = window.constants.photos.slice();
     discussed.sort(function (a, b) {
       return b.comments.length - a.comments.length;
@@ -74,13 +74,13 @@
       var functionToCall = null;
       switch (evt.target.id) {
         case 'filter-popular':
-          functionToCall = popularFilterButtonClickHandler;
+          functionToCall = popularFilterButtonHandler;
           break;
         case 'filter-random':
-          functionToCall = randomFilterButtonClickHandler;
+          functionToCall = randomFilterButtonHandler;
           break;
         case 'filter-discussed':
-          functionToCall = discussedFilterButtonClickHandler;
+          functionToCall = discussedFilterButtonHandler;
           break;
       }
       if (functionToCall) {

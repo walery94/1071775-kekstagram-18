@@ -26,29 +26,8 @@
     pin.style.left = defaultWidth + 'px';
   };
   var setEffectLevel = function (effectName, scale) {
-    var pictureStyle = null;
-
-    switch (effectName) {
-      case 'chrome':
-        pictureStyle = window.constants.EFFECT_STYLES[effectName] + '(' + scale + ')';
-        break;
-      case 'sepia':
-        pictureStyle = 'sepia(' + scale + ')';
-        break;
-      case 'marvin':
-        scale *= window.constants.EFFECT_COEFFECENTS[effectName];
-        pictureStyle = window.constants.EFFECT_STYLES[effectName] + '(' + scale + '%)';
-        break;
-      case 'phobos':
-        scale *= window.constants.EFFECT_COEFFECENTS[effectName];
-        pictureStyle = window.constants.EFFECT_STYLES[effectName] + '(' + scale + 'px)';
-        break;
-      case 'heat':
-        scale *= window.constants.EFFECT_COEFFECENTS[effectName];
-        pictureStyle = window.constants.EFFECT_STYLES[effectName] + '(' + scale + ')';
-        break;
-    }
-    picture.style.filter = pictureStyle;
+    var effectValue = window.constants.EFFECT_DATA[effectName];
+    picture.style.filter = (effectName === window.constants.DEFAULT_EFFECT || !effectValue) ? null : effectValue['style'] + '(' + (scale * effectValue['coefficient']) + effectValue['unit'] + ')';
   };
   pin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -91,7 +70,7 @@
 
   var setActiveEffect = function (nameEffect) {
 
-    setEffectLevel(nameEffect, window.constants.DEFAULT_EFFECT_VALUES[nameEffect]);
+    setEffectLevel(nameEffect, window.constants.EFFECT_DATA[nameEffect] ? window.constants.EFFECT_DATA[nameEffect]['default'] : window.constants.DEFAULT_EFFECT_VALUE);
 
     togglePictureLevel(nameEffect === window.constants.DEFAULT_EFFECT);
 
