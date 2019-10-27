@@ -73,13 +73,13 @@
       removeTimeout();
       var functionToCall = null;
       switch (evt.target.id) {
-        case 'filter-popular':
+        case window.constants.FILTER_POPULAR_ID:
           functionToCall = filterPopularPhotos;
           break;
-        case 'filter-random':
+        case window.constants.FILTER_RANDOM_ID:
           functionToCall = filterRandomPhotos;
           break;
-        case 'filter-discussed':
+        case window.constants.FILTER_DISCUSSED_ID:
           functionToCall = filterDiscussedPhotos;
           break;
       }

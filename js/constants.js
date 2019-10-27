@@ -67,6 +67,9 @@
   };
   var BORDER_RED = 'border: 3px solid red;';
   var BORDER_NO = 'border: none;';
+  var FILTER_POPULAR_ID = 'filter-popular';
+  var FILTER_RANDOM_ID = 'filter-random';
+  var FILTER_DISCUSSED_ID = 'filter-discussed';
 
   window.constants = {
     BUTTON_ESC: BUTTON_ESC,
@@ -96,6 +99,9 @@
     BORDER_RED: BORDER_RED,
     BORDER_NO: BORDER_NO,
     EFFECT_DATA: EFFECT_DATA,
-    DEFAULT_EFFECT_VALUE: DEFAULT_EFFECT_VALUE
+    DEFAULT_EFFECT_VALUE: DEFAULT_EFFECT_VALUE,
+    FILTER_POPULAR_ID: FILTER_POPULAR_ID,
+    FILTER_RANDOM_ID: FILTER_RANDOM_ID,
+    FILTER_DISCUSSED_ID: FILTER_DISCUSSED_ID
   };
 })();
